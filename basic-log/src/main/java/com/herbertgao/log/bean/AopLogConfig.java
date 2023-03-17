@@ -6,7 +6,7 @@ import lombok.Data;
 import org.springframework.http.HttpHeaders;
 
 @Data
-public class HttpLogConfig {
+public class AopLogConfig {
 
 
     /** 操作标签/错做分类 */
@@ -19,8 +19,6 @@ public class HttpLogConfig {
     private String[] exclude;
     /** 是否记录响应报文 */
     private boolean respBody;
-    /** 是否仅在发生异常时才记录 */
-    private boolean onlyOnErr;
     /** 发生异常时，是否追加堆栈信息到content */
     private boolean stackTraceOnErr;
     /** 异步模式 */
@@ -28,13 +26,12 @@ public class HttpLogConfig {
     /** 指定专门的收集器 */
     private Class<? extends LogCollector> collector;
 
-    public HttpLogConfig() {
+    public AopLogConfig() {
         this.tag = "default";
         this.headers = new String[]{HttpHeaders.USER_AGENT, HttpHeaders.CONTENT_TYPE};
         this.args = true;
         this.exclude = new String[]{};
         this.respBody = true;
-        this.onlyOnErr = false;
         this.stackTraceOnErr = true;
         this.asyncMode = true;
         this.collector = DefaultLogCollector.class;

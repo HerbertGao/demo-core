@@ -21,6 +21,8 @@
         <spring.version>5.3.25</spring.version>
         <dubbo.version>3.1.7</dubbo.version>
         <nacos-client.version>2.2.0</nacos-client.version>
+        <resteasy.version>3.15.6.Final</resteasy.version>
+        <jetty.version>9.4.50.v20221201</jetty.version>
         <junit.version>4.13.1</junit.version>
     </properties>
 
@@ -114,12 +116,36 @@
                 <version>${nacos-client.version}</version>
             </dependency>
 
+            <!-- REST support dependencies -->
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-jaxrs</artifactId>
+                <version>${resteasy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jboss.resteasy</groupId>
+                <artifactId>resteasy-client</artifactId>
+                <version>${resteasy.version}</version>
+            </dependency>
+
+            <!-- jetty -->
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-server</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-servlet</artifactId>
+                <version>${jetty.version}</version>
+            </dependency>
+
+            <!-- common -->
             <dependency>
                 <groupId>com.herbertgao</groupId>
                 <artifactId>basic-common</artifactId>
                 <version>${project.version}</version>
             </dependency>
-
             <dependency>
                 <groupId>com.herbertgao</groupId>
                 <artifactId>basic-log</artifactId>

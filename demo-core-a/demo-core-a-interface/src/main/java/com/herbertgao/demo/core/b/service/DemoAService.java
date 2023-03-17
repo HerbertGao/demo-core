@@ -1,4 +1,4 @@
-package com.herbertgao.demo.core.a.service;
+package com.herbertgao.demo.core.b.service;
 
 public interface DemoAService {
 

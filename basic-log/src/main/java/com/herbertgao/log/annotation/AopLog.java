@@ -10,14 +10,14 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * http日志
+ * AOP日志
  *
  * @author HerbertGao
  * @date 2023-03-16
  */
 @Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
-public @interface HttpLog {
+public @interface AopLog {
 
     /**
      * 操作标签/错做分类
@@ -53,13 +53,6 @@ public @interface HttpLog {
      * @return boolean
      */
     boolean respBody() default true;
-
-    /**
-     * 是否仅在发生异常时才记录
-     *
-     * @return boolean
-     */
-    boolean onlyOnErr() default false;
 
     /**
      * 发生异常时，是否追加堆栈信息到content

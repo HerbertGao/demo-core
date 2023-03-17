@@ -1,6 +1,6 @@
 package com.herbertgao.demo.core.a;
 
-import com.herbertgao.demo.core.a.service.DemoAService;
+import com.herbertgao.demo.core.b.service.DemoAService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.dubbo.config.annotation.DubboReference;
 import org.springframework.boot.CommandLineRunner;

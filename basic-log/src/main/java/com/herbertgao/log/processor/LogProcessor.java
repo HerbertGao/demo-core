@@ -1,7 +1,7 @@
 package com.herbertgao.log.processor;
 
 import com.herbertgao.common.enums.LogTypeEnums;
-import com.herbertgao.log.bean.HttpLogConfig;
+import com.herbertgao.log.bean.AopLogConfig;
 import com.herbertgao.log.bean.LogData;
 import com.herbertgao.log.collector.DefaultLogCollector;
 import com.herbertgao.log.collector.LogCollector;
@@ -65,7 +65,7 @@ public class LogProcessor {
         return appName;
     }
 
-    public Object proceed(HttpLogConfig config, ProceedingJoinPoint point) throws Throwable {
+    public Object proceed(AopLogConfig config, ProceedingJoinPoint point) throws Throwable {
         try {
             LogData.removeCurrent();
             LogData data = LogData.getCurrent();
@@ -75,7 +75,7 @@ public class LogProcessor {
         }
     }
 
-    private Object proceed(HttpLogConfig httpLog, LogData data, ProceedingJoinPoint point) throws Throwable {
+    private Object proceed(AopLogConfig aopLog, LogData data, ProceedingJoinPoint point) throws Throwable {
         Object result = null;
         boolean success = false;
         try {
@@ -83,7 +83,7 @@ public class LogProcessor {
             success = true;
             return result;
         } catch (Throwable throwable) {
-            if (httpLog.isStackTraceOnErr()) {
+            if (aopLog.isStackTraceOnErr()) {
                 try (StringWriter sw = new StringWriter(); PrintWriter writer = new PrintWriter(sw, true)) {
                     throwable.printStackTrace(writer);
                     LogData.step("Fail : \n" + sw);
@@ -93,24 +93,23 @@ public class LogProcessor {
         } finally {
             if (!data.isSuccess()) {
                 data.setAppName(appName);
-                data.setType(LogTypeEnums.HTTP.getType());
-                DataExtractor.logHttpRequest(data, httpLog.getHeaders());
+                DataExtractor.logHttpRequest(data, aopLog.getHeaders());
                 data.setCostTime(System.currentTimeMillis() - data.getLogDate().getTime());
                 MethodSignature signature = (MethodSignature) point.getSignature();
-                data.setTag(elSupporter.getByExpression(signature.getMethod(), point.getTarget(), point.getArgs(), httpLog.getTag()).toString());
+                data.setTag(elSupporter.getByExpression(signature.getMethod(), point.getTarget(), point.getArgs(), aopLog.getTag()).toString());
                 data.setMethod(signature.getDeclaringTypeName() + "#" + signature.getName());
-                if (httpLog.isArgs()) {
+                if (aopLog.isArgs()) {
                     data.setArgs(DataExtractor.getArgs(signature.getParameterNames(), point.getArgs()));
                 }
-                if (httpLog.isRespBody()) {
+                if (aopLog.isRespBody()) {
                     data.setRespBody(DataExtractor.getResult(result));
                 }
                 data.setSuccess(success);
                 LogData.setCurrent(data);
-                if (httpLog.isAsyncMode()) {
-                    collectorExecutor.asyncExecute(selectLogCollector(httpLog.getCollector()), LogData.getCurrent());
+                if (aopLog.isAsyncMode()) {
+                    collectorExecutor.asyncExecute(selectLogCollector(aopLog.getCollector()), LogData.getCurrent());
                 } else {
-                    collectorExecutor.execute(selectLogCollector(httpLog.getCollector()), LogData.getCurrent());
+                    collectorExecutor.execute(selectLogCollector(aopLog.getCollector()), LogData.getCurrent());
                 }
             }
         }

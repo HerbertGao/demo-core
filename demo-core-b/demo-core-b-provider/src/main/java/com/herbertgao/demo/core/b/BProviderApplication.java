@@ -1,4 +1,4 @@
-package com.herbertgao.demo.core.a;
+package com.herbertgao.demo.core.b;
 
 import org.apache.dubbo.config.spring.context.annotation.EnableDubbo;
 import org.springframework.boot.SpringApplication;

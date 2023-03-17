@@ -1,7 +1,10 @@
 package com.herbertgao.log.util;
 
+import com.herbertgao.common.enums.LogTypeEnums;
 import com.herbertgao.log.bean.LogData;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
+import org.apache.dubbo.rpc.RpcContext;
 import org.springframework.http.MediaType;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -31,7 +34,14 @@ public class DataExtractor {
      */
     public static HttpServletRequest getRequest() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        return attributes != null ? attributes.getRequest() : null;
+        if (attributes != null) {
+            return attributes.getRequest();
+        }
+
+        if (ObjectUtils.isNotEmpty(RpcContext.getServiceContext().getRequest())) {
+            return RpcContext.getServiceContext().getRequest(HttpServletRequest.class);
+        }
+        return null;
     }
 
     /**
@@ -41,7 +51,14 @@ public class DataExtractor {
      */
     public static HttpServletResponse getResponse() {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        return attributes != null ? attributes.getResponse() : null;
+        if (attributes != null) {
+            return attributes.getResponse();
+        }
+
+        if (ObjectUtils.isNotEmpty(RpcContext.getServiceContext().getRequest())) {
+            return RpcContext.getServiceContext().getResponse(HttpServletResponse.class);
+        }
+        return null;
     }
 
     /**
@@ -161,6 +178,7 @@ public class DataExtractor {
     public static void logHttpRequest(LogData data, String[] headers) {
         HttpServletRequest request = getRequest();
         if (request != null) {
+            data.setType(LogTypeEnums.HTTP.getType());
             data.setHost(request.getLocalAddr());
             data.setPort(request.getLocalPort());
             data.setClientIp(request.getRemoteAddr());
@@ -173,6 +191,8 @@ public class DataExtractor {
                 }
             }
             data.setHeaders(headersMap);
+        } else {
+            data.setType(LogTypeEnums.DUBBO.getType());
         }
     }
 

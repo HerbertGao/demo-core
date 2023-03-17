@@ -1,16 +1,16 @@
 spring:
   application:
-    name: demo-core-b-provider
+    name: demo-core-a-provider
 
 server:
-  port: 27002
+  port: 20002
 
 dubbo:
   application:
     name: demo-core-a-provider
-    qos-port: 28002
+    qos-port: 21002
   protocol:
     name: dubbo
-    port: -1
+    port: 22002
   registry:
     address: nacos://127.0.0.1:8848

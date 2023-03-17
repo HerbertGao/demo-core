@@ -1,6 +1,6 @@
 package com.herbertgao.log.annotation;
 
-import com.herbertgao.log.bean.HttpLogConfig;
+import com.herbertgao.log.bean.AopLogConfig;
 import com.herbertgao.log.processor.LogProcessor;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
@@ -21,29 +21,28 @@ public final class LogDataAspect {
     private LogProcessor logProcessor;
 
 
-    @Pointcut("@annotation(HttpLog) || @within(HttpLog)")
-    public void httpLogPointCut() {
+    @Pointcut("@annotation(com.herbertgao.log.annotation.AopLog) || @within(com.herbertgao.log.annotation.AopLog)")
+    public void aopLogPointCut() {
     }
 
-    @Around("httpLogPointCut()")
+    @Around("aopLogPointCut()")
     public Object note(ProceedingJoinPoint point) throws Throwable {
-        HttpLogConfig config = new HttpLogConfig();
+        AopLogConfig config = new AopLogConfig();
         MethodSignature signature = (MethodSignature) point.getSignature();
-        HttpLog httpLog = signature.getMethod().getAnnotation(HttpLog.class);
+        AopLog aopLog = signature.getMethod().getAnnotation(AopLog.class);
 
-        if (httpLog == null) {
-            httpLog = point.getTarget().getClass().getAnnotation(HttpLog.class);
+        if (aopLog == null) {
+            aopLog = point.getTarget().getClass().getAnnotation(AopLog.class);
         }
 
-        if (httpLog != null) {
-            config.setTag(httpLog.tag());
-            config.setHeaders(httpLog.headers());
-            config.setArgs(httpLog.args());
-            config.setExclude(httpLog.exclude());
-            config.setRespBody(httpLog.respBody());
-            config.setOnlyOnErr(httpLog.onlyOnErr());
-            config.setStackTraceOnErr(httpLog.stackTraceOnErr());
-            config.setAsyncMode(httpLog.asyncMode());
+        if (aopLog != null) {
+            config.setTag(aopLog.tag());
+            config.setHeaders(aopLog.headers());
+            config.setArgs(aopLog.args());
+            config.setExclude(aopLog.exclude());
+            config.setRespBody(aopLog.respBody());
+            config.setStackTraceOnErr(aopLog.stackTraceOnErr());
+            config.setAsyncMode(aopLog.asyncMode());
         }
 
         return logProcessor.proceed(config, point);
