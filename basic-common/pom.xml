@@ -9,7 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>demo-core-common</artifactId>
+    <artifactId>basic-common</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -17,6 +17,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <lombok.version>1.18.26</lombok.version>
+        <common.lang.version>3.12.0</common.lang.version>
+        <common.collections.version>4.4</common.collections.version>
         <fastjson2.version>2.0.25</fastjson2.version>
         <hutool.version>5.8.15</hutool.version>
         <poi.version>5.2.3</poi.version>
@@ -25,11 +27,24 @@
     </properties>
 
     <dependencies>
+
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok.version}</version>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>${common.lang.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-collections4</artifactId>
+            <version>${common.collections.version}</version>
+        </dependency>
+
 
         <dependency>
             <groupId>com.alibaba.fastjson2</groupId>

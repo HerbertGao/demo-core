@@ -1,3 +1,10 @@
+spring:
+  application:
+    name: demo-core-b-provider
+
+server:
+  port: 27012
+
 dubbo:
   application:
     name: demo-core-b-provider

@@ -5,11 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.herbertgao</groupId>
-        <artifactId>demo-core-b</artifactId>
+        <artifactId>demo-core</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>demo-core-b-interface</artifactId>
+    <artifactId>basic-log</artifactId>
 
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
@@ -24,8 +24,14 @@
         </dependency>
 
         <dependency>
-            <groupId>com.herbertgao</groupId>
-            <artifactId>basic-log</artifactId>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
         </dependency>
     </dependencies>
+
 </project>

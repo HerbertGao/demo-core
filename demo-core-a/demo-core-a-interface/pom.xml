@@ -20,7 +20,7 @@
     <dependencies>
         <dependency>
             <groupId>com.herbertgao</groupId>
-            <artifactId>demo-core-common</artifactId>
+            <artifactId>basic-common</artifactId>
         </dependency>
     </dependencies>
 </project>
