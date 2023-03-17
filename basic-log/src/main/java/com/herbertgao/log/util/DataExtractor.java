@@ -55,7 +55,7 @@ public class DataExtractor {
             return attributes.getResponse();
         }
 
-        if (ObjectUtils.isNotEmpty(RpcContext.getServiceContext().getRequest())) {
+        if (ObjectUtils.isNotEmpty(RpcContext.getServiceContext().getResponse())) {
             return RpcContext.getServiceContext().getResponse(HttpServletResponse.class);
         }
         return null;
