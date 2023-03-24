@@ -22,7 +22,6 @@
     <modules>
         <module>demo-core-a-interface</module>
         <module>demo-core-a-provider</module>
-        <module>demo-core-a-consumer</module>
     </modules>
 
     <build>

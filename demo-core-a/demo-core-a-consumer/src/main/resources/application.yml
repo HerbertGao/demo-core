@@ -1,9 +1,0 @@
-dubbo:
-  application:
-    name: demo-core-a-consumer
-    qos-port: 28001
-  protocol:
-    name: dubbo
-    port: -1
-  registry:
-    address: nacos://127.0.0.1:8848

@@ -23,11 +23,6 @@
             <artifactId>basic-common</artifactId>
         </dependency>
 
-        <dependency>
-            <groupId>com.herbertgao</groupId>
-            <artifactId>basic-log</artifactId>
-        </dependency>
-
         <!-- REST support dependencies -->
         <dependency>
             <groupId>org.jboss.resteasy</groupId>
@@ -44,6 +39,10 @@
         <dependency>
             <groupId>org.eclipse.jetty</groupId>
             <artifactId>jetty-servlet</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java</artifactId>
         </dependency>
 
     </dependencies>

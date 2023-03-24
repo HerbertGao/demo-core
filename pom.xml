@@ -11,6 +11,14 @@
     <name>demo-core</name>
     <description>demo-core</description>
 
+    <modules>
+        <module>basic-common</module>
+        <module>basic-log</module>
+
+        <module>demo-core-a</module>
+        <module>demo-core-b</module>
+    </modules>
+
     <properties>
         <java.version>1.8</java.version>
         <maven.compiler.source>8</maven.compiler.source>
@@ -19,10 +27,16 @@
 
         <spring-boot.version>2.7.9</spring-boot.version>
         <spring.version>5.3.25</spring.version>
-        <dubbo.version>3.1.7</dubbo.version>
-        <nacos-client.version>2.2.0</nacos-client.version>
+        <dubbo.version>3.2.0-beta.6</dubbo.version>
+        <nacos-springboot.version>0.2.12</nacos-springboot.version>
         <resteasy.version>3.15.6.Final</resteasy.version>
         <jetty.version>9.4.50.v20221201</jetty.version>
+        <protobuf.version>3.19.4</protobuf.version>
+
+        <mysql.version>5.1.49</mysql.version>
+        <mybatis-plus.version>3.5.2</mybatis-plus.version>
+        <druid.version>1.2.16</druid.version>
+
         <junit.version>4.13.1</junit.version>
     </properties>
 
@@ -73,47 +87,52 @@
                 <version>${dubbo.version}</version>
                 <exclusions>
                     <exclusion>
-                        <groupId>org.springframework</groupId>
-                        <artifactId>spring</artifactId>
-                    </exclusion>
-                    <exclusion>
-                        <groupId>javax.servlet</groupId>
-                        <artifactId>servlet-api</artifactId>
-                    </exclusion>
-                    <exclusion>
                         <groupId>log4j</groupId>
                         <artifactId>log4j</artifactId>
                     </exclusion>
+                    <exclusion>
+                        <groupId>com.alibaba.spring</groupId>
+                        <artifactId>spring-context-support</artifactId>
+                    </exclusion>
                 </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.dubbo</groupId>
+                <artifactId>dubbo-qos</artifactId>
+                <version>${dubbo.version}</version>
+                <exclusions>
+                    <exclusion>
+                        <groupId>org.apache.dubbo</groupId>
+                        <artifactId>dubbo-common</artifactId>
+                    </exclusion>
+                    <exclusion>
+                        <groupId>org.apache.dubbo</groupId>
+                        <artifactId>dubbo-remoting-api</artifactId>
+                    </exclusion>
+                </exclusions>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java</artifactId>
+                <version>${protobuf.version}</version>
             </dependency>
 
             <!-- nacos -->
             <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-configcenter-nacos</artifactId>
-                <version>${dubbo.version}</version>
+                <groupId>com.alibaba.boot</groupId>
+                <artifactId>nacos-config-spring-boot-starter</artifactId>
+                <version>${nacos-springboot.version}</version>
                 <exclusions>
                     <exclusion>
-                        <groupId>com.alibaba.nacos</groupId>
-                        <artifactId>nacos-client</artifactId>
+                        <groupId>com.alibaba.spring</groupId>
+                        <artifactId>spring-context-support</artifactId>
                     </exclusion>
                 </exclusions>
             </dependency>
             <dependency>
-                <groupId>org.apache.dubbo</groupId>
-                <artifactId>dubbo-registry-nacos</artifactId>
-                <version>${dubbo.version}</version>
-                <exclusions>
-                    <exclusion>
-                        <groupId>com.alibaba.nacos</groupId>
-                        <artifactId>nacos-client</artifactId>
-                    </exclusion>
-                </exclusions>
-            </dependency>
-            <dependency>
-                <groupId>com.alibaba.nacos</groupId>
-                <artifactId>nacos-client</artifactId>
-                <version>${nacos-client.version}</version>
+                <groupId>com.alibaba.spring</groupId>
+                <artifactId>spring-context-support</artifactId>
+                <version>1.0.11</version>
             </dependency>
 
             <!-- REST support dependencies -->
@@ -140,6 +159,26 @@
                 <version>${jetty.version}</version>
             </dependency>
 
+            <!--mysql驱动依赖-->
+            <dependency>
+                <groupId>mysql</groupId>
+                <artifactId>mysql-connector-java</artifactId>
+                <version>${mysql.version}</version>
+                <scope>runtime</scope>
+            </dependency>
+            <!--mybatis-plus依赖-->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-boot-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <!--druid数据库连接池依赖-->
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>druid-spring-boot-starter</artifactId>
+                <version>${druid.version}</version>
+            </dependency>
+
             <!-- common -->
             <dependency>
                 <groupId>com.herbertgao</groupId>
@@ -149,6 +188,17 @@
             <dependency>
                 <groupId>com.herbertgao</groupId>
                 <artifactId>basic-log</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.herbertgao</groupId>
+                <artifactId>demo-core-a-interface</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.herbertgao</groupId>
+                <artifactId>demo-core-b-interface</artifactId>
                 <version>${project.version}</version>
             </dependency>
 
@@ -168,6 +218,30 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
             </plugin>
+<!--            <plugin>-->
+<!--                <groupId>org.xolstice.maven.plugins</groupId>-->
+<!--                <artifactId>protobuf-maven-plugin</artifactId>-->
+<!--                <version>0.6.1</version>-->
+<!--                <configuration>-->
+<!--                    <protocArtifact>com.google.protobuf:protoc:${protobuf.version}:exe:${os.detected.classifier}</protocArtifact>-->
+<!--                    <protocPlugins>-->
+<!--                        <protocPlugin>-->
+<!--                            <id>dubbo</id>-->
+<!--                            <groupId>org.apache.dubbo</groupId>-->
+<!--                            <artifactId>dubbo-compiler</artifactId>-->
+<!--                            <version>${dubbo.version}</version>-->
+<!--                            <mainClass>org.apache.dubbo.gen.tri.Dubbo3TripleGenerator</mainClass>-->
+<!--                        </protocPlugin>-->
+<!--                    </protocPlugins>-->
+<!--                </configuration>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <goals>-->
+<!--                            <goal>compile</goal>-->
+<!--                        </goals>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
         </plugins>
     </build>
 
@@ -202,11 +276,4 @@
         </profile>
     </profiles>
 
-    <modules>
-        <module>basic-common</module>
-        <module>basic-log</module>
-
-        <module>demo-core-a</module>
-        <module>demo-core-b</module>
-    </modules>
 </project>

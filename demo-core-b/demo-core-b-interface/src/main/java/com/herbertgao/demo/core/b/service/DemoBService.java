@@ -8,7 +8,7 @@ import javax.ws.rs.PathParam;
 public interface DemoBService {
 
     @GET
-    @Path("{name}")
+    @Path("/{name}")
     String sayHello(@PathParam("name") String name);
 
 }

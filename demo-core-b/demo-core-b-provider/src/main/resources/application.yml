@@ -1,20 +1,37 @@
 spring:
   application:
     name: demo-core-b-provider
+  profiles:
+    active: dev
 
 server:
-  port: 20012
+  port: 28020
+
+nacos:
+  config:
+    bootstrap:
+      enable: true
+    namespace: ${spring.profiles.active}
+    data-ids: ${spring.application.name}.yml
+    type: yaml
+    auto-refresh: true
+    group: DEMO_GROUP
 
 dubbo:
   application:
-    name: demo-core-b-provider
-    qos-port: 21012
+    name: ${spring.application.name}
+    qos-port: 28021
+    register-mode: instance
   protocols:
-    dubbo:
-      name: dubbo
-      port: 22012
+    tri:
+      name: tri
+      port: 28022
+      ext-protocol: dubbo,
     rest:
       name: rest
-      port: 23012
+      port: 28023
   registry:
-    address: nacos://127.0.0.1:8848
+    address: nacos://${nacos.config.server-addr}?username=${nacos.config.username}&password=${nacos.config.password}
+    group: ${nacos.config.group}
+    parameters:
+      namespace: ${spring.profiles.active}
