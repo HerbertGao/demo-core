@@ -1,0 +1,6 @@
+# Auto Configure
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+  com.herbertgao.log.processor.LogProcessor,\
+  com.herbertgao.log.annotation.LogDataAspect,\
+  com.herbertgao.log.config.AopLogAutoConfiguration,\
+  com.herbertgao.log.executor.CollectorExecutor

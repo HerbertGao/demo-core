@@ -1,0 +1,42 @@
+spring:
+  application:
+    name: demo-core-a-provider
+  profiles:
+    active: dev
+  messages:
+    basename: i18n/messages
+
+server:
+  port: 20000
+  shutdown: graceful
+
+nacos:
+  config:
+    bootstrap:
+      enable: true
+    namespace: ${spring.profiles.active}
+    data-ids: ${spring.application.name}.yml
+    group: DEMO_GROUP
+    type: yaml
+    auto-refresh: true
+
+dubbo:
+  application:
+    name: ${spring.application.name}
+    qos-port: 20001
+    register-mode: instance
+  protocols:
+    tri:
+      name: tri
+      port: 20002
+      ext-protocol: dubbo,
+#    rest:
+#      name: rest
+#      port: 20003
+  registry:
+    address: nacos://${nacos.config.server-addr}?username=${nacos.config.username}&password=${nacos.config.password}
+    group: ${nacos.config.group}
+    parameters:
+      namespace: ${spring.profiles.active}
+  consumer:
+    check: false
